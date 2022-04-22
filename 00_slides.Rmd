@@ -3,7 +3,7 @@ title: "Fundamentals of Data Visualization"
 subtitle: "Fundamentals of Data Visualzation by Claus O. Wilke"
 author: "Heidi Steiner"
 institute: "Data Science Institute, UArizona"
-date: "2016/12/12"
+date: "2022/22/04"
 output:
   xaringan::moon_reader:
     lib_dir: libs
