@@ -197,7 +197,7 @@ datasaurus_dozen %>%
 ---
 
 
-## Some more summary statistics...
+## More summary statistics...
 
 How, if at all, are these 13 datasets different from each other?
 
@@ -219,7 +219,7 @@ datasaurus_dozen %>%
 ---
 
 
-## And some more summary statistics...
+## Even more summary statistics...
 
 How, if at all, are these 13 datasets different from each other?
 
@@ -261,7 +261,7 @@ class: inverse, center, middle
 --
 
 .important[
-convey information in a way that is otherwise difficult/impossible to describe
+Convey information in a way that is otherwise difficult/impossible to describe
 ]
 
 
