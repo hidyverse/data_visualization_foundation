@@ -137,9 +137,6 @@ style_duo_accent(
 
 ---
 class: inverse, center, middle
-background-image: url("assets/sound-piles.png")
-background-position: bottom
-background-size: 30%
 
 # Why visualize?
 
@@ -244,7 +241,7 @@ datasaurus_dozen %>%
 
 ---
 
-## Surprise 
+## Surprise! 
 
 
 ```{r fig.asp = 0.8, out.width = "100%"}
