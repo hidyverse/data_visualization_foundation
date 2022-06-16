@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Fundamentals of Data Visualization</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heidi E. Steiner" />
+    <meta name="date" content="2022-06-16" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="assets/my_theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: title-slide
+background-image: url("assets/github_activity.jpeg")
+background-size: 60% 
+background-position: 100% 80%
+
+
+# Fundamentals of Data Visualization
+
+&lt;br&gt;&lt;/br&gt;
+&lt;br&gt;&lt;/br&gt;
+&lt;br&gt;&lt;/br&gt;
+&lt;br&gt;&lt;/br&gt;
+
+### Heidi E. Steiner
+### `r Sys.Date()`
+
+
+---
+class: middle
+background-image: url("assets/TidyTuesday_Week_2020_05_Trees_in_San_Francisco.jpeg")
+background-position: right
+background-size: 60% 80%
+
+.left-col[
+# Our Map
+
+- Why do we visualize data?
+- The principle of proportional ink 
+- Telling a story and making a point
+- Visualization ethics
+- Resources for visualization
+]
+
+
+
+
+
+
+
+
+
+---
+class: inverse, center, middle
+
+# Why visualize?
+
+--
+
+.important[
+Discover patterns that may not be obvious from numerical summaries
+]
+
+---
+class: middle
+
+
+
+
+.left-col[
+We have 13 datasets, each with 142 observations. For each observation we have values on two variables recorded: an X and a Y.
+
+Summary statistics for these two variables for each of the datasets is given on the right. 
+
+How, if at all, are these 13 datasets different from each other?
+]
+
+.span-col[
+
+|dataset    |   n| Average x| Average y|
+|:----------|---:|---------:|---------:|
+|Dataset 1  | 142|      54.3|      47.8|
+|Dataset 2  | 142|      54.3|      47.8|
+|Dataset 3  | 142|      54.3|      47.8|
+|Dataset 4  | 142|      54.3|      47.8|
+|Dataset 5  | 142|      54.3|      47.8|
+|Dataset 6  | 142|      54.3|      47.8|
+|Dataset 7  | 142|      54.3|      47.8|
+|Dataset 8  | 142|      54.3|      47.8|
+|Dataset 9  | 142|      54.3|      47.8|
+|Dataset 10 | 142|      54.3|      47.8|
+|Dataset 11 | 142|      54.3|      47.8|
+|Dataset 12 | 142|      54.3|      47.8|
+|Dataset 13 | 142|      54.3|      47.8|
+]
+
+---
+
+
+Some more summary statistics...
+
+How, if at all, are these 13 datasets different from each other?
+
+
+
+|dataset    |   n| Average x| Average y| St Dev x| St Dev y|
+|:----------|---:|---------:|---------:|--------:|--------:|
+|Dataset 1  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 2  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 3  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 4  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 5  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 6  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 7  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 8  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 9  | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 10 | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 11 | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 12 | 142|      54.3|      47.8|     16.8|     26.9|
+|Dataset 13 | 142|      54.3|      47.8|     16.8|     26.9|
+
+
+---
+
+
+And some more summary statistics...
+
+How, if at all, are these 13 datasets different from each other?
+
+
+
+|dataset    |   n| Average x| Average y| St Dev x| St Dev y| Correlation|
+|:----------|---:|---------:|---------:|--------:|--------:|-----------:|
+|Dataset 1  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 2  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 3  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 4  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 5  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 6  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 7  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 8  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 9  | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 10 | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 11 | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 12 | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+|Dataset 13 | 142|      54.3|      47.8|     16.8|     26.9|        -0.1|
+
+
+---
+
+And finally a visualization!
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-6-1.png" width="100%" /&gt;
+
+
+---
+class: inverse, center, middle
+
+# Why visualize?
+
+--
+
+.important[
+convey information in a way that is otherwise difficult/impossible to describe
+]
+
+
+---
+class: center 
+
+&lt;img src="assets/ft-covid-excess-deaths.png" width="100%" /&gt;
+.footnote[
+Source: [Financial Times](https://www.ft.com/content/a2901ce8-5eb7-4633-b89c-cbdf5b386938), 27 Aug 2021.
+]
+
+???
+
+other answers include Generate hypotheses, Make decisions, See data in context, Expand memory, Support computational analysis, Find patterns, Tell a story, Inspire
+
+---
+class: center
+
+## Figure Categorizations
+
+&lt;img src="index_files/figure-html/ugly-bad-wrong-examples-1.png" width="100%" /&gt;
+
+
+---
+class: center, middle, inverse
+
+# The principle of proportional ink
+
+--
+
+.important[
+
+The sizes of shaded areas in a visualization need to be proportional to the data values they represent 
+
+]
+
+
+.footnote[
+Materials from 'Fundamentals of Data Visualization' by Claus O. Wilke (Part II, Chapter 17)
+]
+
+???
+
+It is common practice to use the word "ink" to refer to any part of a visualization that deviates from the background color. This includes lines, points, shared areas, and text. In this chapter, however, we are talking primarily about shaded areas
+
+We first consider the most common scenario, visualization of amounts along a linear scale. Figure \@ref(fig:hawaii-income-bars-bad) shows the median income in the five counties that make up the state of Hawaii. 
+
+It is a typical figure one might encounter in a newspaper article. A quick glance at the figure suggests that the county of Hawaii is incredibly poor while the county of Honolulu is much richer than the other counties. However, this Figure is quite misleading, because human perception is such that the bar height is the key quantity we perceive when looking at this figure, not the location of the bar endpoint relative to the *y* axis.
+
+
+
+
+
+
+
+---
+class: center
+
+## Visualizations along linear axes
+
+
+
+&lt;img src="index_files/figure-html/hawaii-income-bars-bad-1.png" width="100%" /&gt;
+
+---
+class: center
+
+## Visualizations along linear axes
+
+Often, appropriate axes make for less exciting stories
+
+&lt;img src="index_files/figure-html/hawaii-income-bars-good-1.png" width="100%" /&gt;
+
+???
+
+While there are differences in median income between the counties, they are nowhere near as big as Figure \@ref(fig:hawaii-income-bars-bad) suggested. Overall, the median incomes in the different counties are somewhat comparable.
+
+---
+class: center
+
+## Visualizations along linear axes 
+
+This doesn't mean you shouldn't use bar plots in these situations! 
+
+&lt;img src="index_files/figure-html/hawaii-income-change-1.png" width="100%" /&gt;
+
+???
+
+This example could suggest that bars and shaded areas are not useful to represent small changes over time or differences between conditions, since we always have to draw the whole bar or area starting from 0. However, this is not the case. It is perfectly valid to use bars or shaded areas to show **differences between conditions**, as long as we make it explicit which differences we are showing. For example, we can use bars to visualize the change in median income in Hawaiian counties from 2010 to 2015 (Figure \@ref(fig:hawaii-income-change)). For all counties except Kalawao, this change amounts to less than $5000. (Kalawao is an unusual county, with fewer than 100 inhabitants, and it can experience large swings in median income from a small number of people moving into or out of the county.) And for Hawaii County, the change is negative, i.e., the median income in 2015 was lower than it was in 2010. We represent negative values by drawing bars that go in the opposite direction, i.e., that extend from 0 down rather than up.
+
+
+---
+class: inverse, center, middle
+
+# Storytelling tips 
+
+
+
+
+???
+
+Most data visualization is done for the purpose of communication. We have an insight about a dataset, and we have a potential audience, and we would like to convey our insight to our audience. To communicate our insight successfully, we will have to present the audience with a clear and exciting story. 
+
+Your goal in telling a story should be to use facts and logical reasoning to get your audience interested and excited.
+
+---
+class: center
+
+## Know your audience
+
+
+&lt;img src="index_files/figure-html/arrival-delay-vs-distance-1.png" width="100%" /&gt;
+
+--
+
+.tip[
+
+Try to show too much data at once you may end up not showing anything!
+]
+
+
+???
+
+I don't mean what you think I mean here. Your audience is TIRED. We're all busy, tired, overworked, and underpaid. 
+
+With nearly limitless power of visualization, it becomes tempting to keep piling on more dimensions of data. And in fact, I see a trend in the world of data visualization to make the most complex, multi-faceted visualizations possible. These visualizations may look very impressive, but they are unlikely to convey a clear story.
+
+---
+class: center
+
+## Know your audience
+
+
+&lt;img src="index_files/figure-html/mean-arrival-delay-nyc-1.png" width="100%" /&gt;
+
+--
+
+.tip[
+
+Sometimes two simple figures are better than one!
+
+]
+
+
+
+---
+class: center
+
+## Use color as a tool 
+
+--
+
+.top-right-corner[
+.tip[
+to represent
+]
+]
+
+.full-page2[
+
+
+&lt;img src="index_files/figure-html/map-Texas-income-1.png" width="100%" height="250%" /&gt;
+
+
+]
+
+---
+class: center
+
+## Use color as a tool 
+
+--
+
+.top-right-corner[
+.tip[
+
+to highlight
+]
+]
+
+.full-page[
+
+&lt;img src="index_files/figure-html/popgrowth-US-1.png" width="100%" /&gt;
+
+]
+
+---
+class: center
+
+## Use color as a tool 
+
+.top-right-corner[
+.tip[
+
+to highlight
+]
+]
+
+.full-page[
+&lt;img src="index_files/figure-html/popgrowth-US-highlight-1.png" width="100%" /&gt;
+]
+
+---
+class: center
+background-image: url("assets/fontsmatter.png")
+background-size: contain
+
+
+
+---
+class: inverse, center, middle
+
+# Visualization ethics
+
+
+---
+class: center
+
+## Misleading Charts
+
+&lt;img src="assets/FLguns.jpeg" width="90%" /&gt;
+
+---
+class: center
+
+## Misleading Charts
+
+
+&lt;img src="assets/climate.png" width="80%" /&gt;
+
+
+???
+
+That is, if you extend the Y-axis by absurd levels. The range goes from an average global temperature of -10 to 110. Presumably, on the high end of the spectrum, many places would have heat waves in the 180s or 190s. We start to feel pain at 111 degrees and human skin is instantly destroyed at 162 degrees. So if the average temperature were to be 110, well, every summer our skin would fall off. Instantaneously.
+
+
+
+---
+class: center
+
+## Misleading Charts
+
+
+&lt;img src="assets/challenger.jpeg" width="90%" /&gt;
+
+---
+class: center
+
+.top-row[
+
+&lt;img src="assets/challenger.jpeg" width="60%" /&gt;
+
+]
+
+.bottom-row[
+&lt;img src="assets/challenger2.jpeg" width="100%" /&gt;
+
+
+]
+
+
+---
+class: center
+
+## Visualizations that mean something
+
+.tip[
+It's OK for your visualizations to invoke feelings! 
+]
+
+https://guns.periscopic.com/ 
+
+???
+
+comunity policing fails in south (nature article)
+young men symmetric dancing attractive to women (nature article)
+long term career of phd (nature) (all male committee)
+
+---
+class: inverse, center, middle
+
+# Let's chat resources
+
+---
+class: left
+
+# Let's chat resources
+
+### Choosing Visualizations
+
+- https://clauswilke.com/dataviz/directory-of-visualizations.html
+  - This whole book!
+  
+### Exploratory Visualizations
+
+- Jump
+- Orange
+- python
+
+
+### Publication Ready Visualizations
+
+- origin pro 
+- matplotlib
+  - latex packages
+- Excel 
+
+### Graphical Abstracts
+
+- powerpoint
+- biorender 
+- Better Posters
+
+### Design
+
+- https://colororacle.org/
+- adobe color
+
+### Image Knowledge
+
+- those resources from michael?
+- knowing raster () vs vector (svg)
+  - save raster as way bigger so then when its small in the figure its better quality? 
+
+### Molecules
+
+- ovio 
+- vesta 
+
+### Multidimensionality 
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
