@@ -4,7 +4,7 @@
     <title>Power of Data Visualizations</title>
     <meta charset="utf-8" />
     <meta name="author" content="Heidi E. Steiner" />
-    <meta name="date" content="2022-06-16" />
+    <meta name="date" content="2022-06-17" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
@@ -34,11 +34,10 @@ background-size: 60% 80%
 .left-col2[
 # Our Map
 
-- Why do we visualize data?
-- The principle of proportional ink 
+- Why we visualize data
 - Telling a story and making a point
-- Visualization ethics
-- Resources for visualization
+- Data is not neutral
+- Share! 
 ]
 
 
@@ -57,6 +56,7 @@ class: inverse, center, middle
 --
 
 .important[
+
 Discover patterns that may not be obvious from numerical summaries
 ]
 
@@ -179,39 +179,20 @@ Source: [Financial Times](https://www.ft.com/content/a2901ce8-5eb7-4633-b89c-cbd
 
 other answers include Generate hypotheses, Make decisions, See data in context, Expand memory, Support computational analysis, Find patterns, Tell a story, Inspire
 
----
-class: center
-
-## Figure Categorizations
-
-&lt;img src="index_files/figure-html/ugly-bad-wrong-examples-1.png" width="100%" /&gt;
-
 
 ---
-class: center, middle, inverse
+class: inverse, center, middle
 
-# The principle of proportional ink
+# Storytelling tips 
 
---
-
-.important[
-
-The sizes of shaded areas in a visualization need to be proportional to the data values they represent 
-
-]
-
-
-.footnote[
-Materials from 'Fundamentals of Data Visualization' by Claus O. Wilke (Part II, Chapter 17)
-]
 
 ???
 
-It is common practice to use the word "ink" to refer to any part of a visualization that deviates from the background color. This includes lines, points, shared areas, and text. In this chapter, however, we are talking primarily about shaded areas
+Most data visualization is done for the purpose of communication. We have an insight about a dataset, and we have a potential audience, and we would like to convey our insight to our audience. To communicate our insight successfully, we will have to present the audience with a clear and exciting story. 
 
-We first consider the most common scenario, visualization of amounts along a linear scale. Figure \@ref(fig:hawaii-income-bars-bad) shows the median income in the five counties that make up the state of Hawaii. 
+Your goal in telling a story should be to use facts and logical reasoning to get your audience interested and excited.
 
-It is a typical figure one might encounter in a newspaper article. A quick glance at the figure suggests that the county of Hawaii is incredibly poor while the county of Honolulu is much richer than the other counties. However, this Figure is quite misleading, because human perception is such that the bar height is the key quantity we perceive when looking at this figure, not the location of the bar endpoint relative to the *y* axis.
+
 
 
 
@@ -227,6 +208,17 @@ class: center
 
 
 &lt;img src="index_files/figure-html/hawaii-income-bars-bad-1.png" width="100%" /&gt;
+
+
+???
+
+It is common practice to use the word "ink" to refer to any part of a visualization that deviates from the background color. This includes lines, points, shared areas, and text. In this chapter, however, we are talking primarily about shaded areas
+
+We first consider the most common scenario, visualization of amounts along a linear scale. Figure \@ref(fig:hawaii-income-bars-bad) shows the median income in the five counties that make up the state of Hawaii. 
+
+It is a typical figure one might encounter in a newspaper article. A quick glance at the figure suggests that the county of Hawaii is incredibly poor while the county of Honolulu is much richer than the other counties. However, this Figure is quite misleading, because human perception is such that the bar height is the key quantity we perceive when looking at this figure, not the location of the bar endpoint relative to the *y* axis.
+
+
 
 ---
 class: center
@@ -255,24 +247,14 @@ This doesn't mean you shouldn't use bar plots in these situations!
 This example could suggest that bars and shaded areas are not useful to represent small changes over time or differences between conditions, since we always have to draw the whole bar or area starting from 0. However, this is not the case. It is perfectly valid to use bars or shaded areas to show **differences between conditions**, as long as we make it explicit which differences we are showing. For example, we can use bars to visualize the change in median income in Hawaiian counties from 2010 to 2015 (Figure \@ref(fig:hawaii-income-change)). For all counties except Kalawao, this change amounts to less than $5000. (Kalawao is an unusual county, with fewer than 100 inhabitants, and it can experience large swings in median income from a small number of people moving into or out of the county.) And for Hawaii County, the change is negative, i.e., the median income in 2015 was lower than it was in 2010. We represent negative values by drawing bars that go in the opposite direction, i.e., that extend from 0 down rather than up.
 
 
----
-class: inverse, center, middle
-
-# Storytelling tips 
-
-
-
-
-???
-
-Most data visualization is done for the purpose of communication. We have an insight about a dataset, and we have a potential audience, and we would like to convey our insight to our audience. To communicate our insight successfully, we will have to present the audience with a clear and exciting story. 
-
-Your goal in telling a story should be to use facts and logical reasoning to get your audience interested and excited.
 
 ---
 class: center
 
 ## Know your audience
+
+
+
 
 
 &lt;img src="index_files/figure-html/arrival-delay-vs-distance-1.png" width="100%" /&gt;
@@ -314,8 +296,6 @@ class: center
 
 ## Use color as a tool 
 
---
-
 .top-right-corner[
 .tip[
 to represent
@@ -335,7 +315,6 @@ class: center
 
 ## Use color as a tool 
 
---
 
 .top-right-corner[
 .tip[
@@ -371,6 +350,10 @@ class: center
 background-image: url("assets/fontsmatter.png")
 background-size: contain
 
+???
+
+
+LOL but seriously, my fonts are always a mess so if anyone has good resources for finding fonts and also using interent fonts - share! 
 
 
 ---
@@ -378,6 +361,12 @@ class: inverse, center, middle
 
 # Visualization ethics
 
+---
+class: center
+
+# Human Reality 
+
+&lt;img src="assets/visual-ranking.jpg" width="60%" /&gt;
 
 ---
 class: center
@@ -385,19 +374,6 @@ class: center
 ## Misleading Charts
 
 &lt;img src="assets/FLguns.jpeg" width="90%" /&gt;
-
----
-class: center
-
-## Misleading Charts
-
-
-&lt;img src="assets/climate.png" width="80%" /&gt;
-
-
-???
-
-That is, if you extend the Y-axis by absurd levels. The range goes from an average global temperature of -10 to 110. Presumably, on the high end of the spectrum, many places would have heat waves in the 180s or 190s. We start to feel pain at 111 degrees and human skin is instantly destroyed at 162 degrees. So if the average temperature were to be 110, well, every summer our skin would fall off. Instantaneously.
 
 
 
@@ -426,7 +402,21 @@ class: center
 
 
 ---
-class: center
+class: center, middle
+
+# Data is not neutral 
+
+
+--
+
+.tip[
+It is not good enough to commit to not misleading your audience 
+]
+
+https://informationisbeautiful.net/2019/winners-of-the-world-data-visualization-prize/
+
+---
+class: center, middle 
 
 ## Visualizations that mean something
 
@@ -438,9 +428,27 @@ https://guns.periscopic.com/
 
 ???
 
-comunity policing fails in south (nature article)
+
 young men symmetric dancing attractive to women (nature article)
-long term career of phd (nature) (all male committee)
+
+
+
+---
+class: left
+
+# Possible Considerations in Critiquing a Vizualization
+
+- Who is the intended and unintended audience?
+- Who collected, processed, and visualized the data? Was this information easy to find?
+- Why was the data collected, processed, and visualized? Was this information easy to find?
+- How was the data collected, processed, and visualized? Was this information easy to find?
+- What is the focus? What is being left out?
+- What assumptions are being made?
+- What tone is being set by the aesthetics of this visualization?
+- What established worldviews does this visualization support or challenge?
+- What is the effect of using political borders (county, state) to group the data? 
+- Does the visualization empower the audience?
+- Have all steps been taken to increase benefit and reduce harm in producing and publishing this visualization?
 
 ---
 class: inverse, center, middle
@@ -450,56 +458,42 @@ class: inverse, center, middle
 ---
 class: left
 
-# Let's chat resources
+# Favs 💌
 
-### Choosing Visualizations
-
+.tip[
 - https://clauswilke.com/dataviz/directory-of-visualizations.html
   - This whole book!
-  
-### Exploratory Visualizations
+    - [Definitely section 3!](https://clauswilke.com/dataviz/image-file-formats.html) 
+- [Orange for exploratory data visualization](https://orangedatamining.com/home/interactive_data_visualization/)
+- [matplotlib](https://www.machinelearningplus.com/plots/top-50-matplotlib-visualizations-the-master-plots-python/) in python  
+- [biorender for graphical abstracts](https://learn.biorender.com/tutorial/designing-graphical-abstracts)
+- [View you local machine as a person with alternative color vision](https://colororacle.org/)
+- [Blog all about deciding on colors](https://lisacharlottemuth.com/articles)
+]
 
-- Jump
-- Orange
-- python
+---
+class: center 
+
+&lt;img src="index_files/figure-html/unnamed-chunk-16-1.png" width="100%" /&gt;
 
 
-### Publication Ready Visualizations
+---
+class: left
 
-- origin pro 
-- matplotlib
-  - latex packages
-- Excel 
+# Last things 💾
 
-### Graphical Abstracts
+.tip[
+- [Understading `ggplot` resolution](https://www.christophenicault.com/post/understand_size_dimension_ggplot2/)
+- [High resolution figures from R](https://danieljhocking.wordpress.com/2013/03/12/high-resolution-figures-in-r/)
 
-- powerpoint
-- biorender 
-- Better Posters
-
-### Design
-
-- https://colororacle.org/
-- adobe color
-
-### Image Knowledge
-
-- those resources from michael?
-- knowing raster () vs vector (svg)
-  - save raster as way bigger so then when its small in the figure its better quality? 
-
-### Molecules
-
-- ovio 
-- vesta 
-
-### Multidimensionality 
+]
 
 
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,

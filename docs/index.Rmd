@@ -13,6 +13,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      beforeInit: "https://platform.twitter.com/widgets.js"
 ---
 
 class: title-slide
@@ -34,11 +35,10 @@ background-size: 60% 80%
 .left-col2[
 # Our Map
 
-- Why do we visualize data?
-- The principle of proportional ink 
+- Why we visualize data
 - Telling a story and making a point
-- Visualization ethics
-- Resources for visualization
+- Data is not neutral
+- Share! 
 ]
 
 ```{r setup, include=FALSE}
@@ -72,6 +72,7 @@ library(patchwork)
 library(scales)
 library(sf)
 library(tidyverse)
+library(tweetrmd)
 library(xaringanthemer)
 
 xaringanExtra::use_panelset()
@@ -143,6 +144,7 @@ class: inverse, center, middle
 --
 
 .important[
+
 Discover patterns that may not be obvious from numerical summaries
 ]
 
@@ -279,126 +281,19 @@ Source: [Financial Times](https://www.ft.com/content/a2901ce8-5eb7-4633-b89c-cbd
 
 other answers include Generate hypotheses, Make decisions, See data in context, Expand memory, Support computational analysis, Find patterns, Tell a story, Inspire
 
----
-class: center
-
-## Figure Categorizations
-
-```{r ugly-bad-wrong-examples}
-df <- tibble(
-  type = c("A", "B", "C"),
-  value = c(3, 5, 4),
-  expand = c(4, 5, 4.5)
-)
-
-
-p1 <- ggplot(df, aes(type, value)) + 
-  geom_col(fill = "#56B4E9", width = 0.65, alpha = 0.9) +
-  scale_y_continuous(limits = c(0, 5.2), expand = c(0, 0)) +
-  scale_x_discrete(name = NULL) +
-  coord_cartesian(clip = "off") +
-  theme_bw() +
-  theme(
-    axis.line = element_blank(),
-    plot.margin = margin(18, 12, 0, 0)
-  )
-
-p2 <- ggplot(df, aes(type, value)) + 
-  geom_col(fill = c("#CCFF00FF", "#00FFFFFF", "#CC00FFFF"), width = 0.75) +
-  scale_y_continuous(limits = c(0, 5.2), expand = c(0, 0)) +
-  scale_x_discrete(name = NULL) +
-  coord_cartesian(clip = "off") +
-  theme_bw() +
-  theme(
-    axis.line = element_blank(),
-    axis.title = element_text(size = 15),
-    axis.text.x = element_text(size = 10),
-    axis.text.y = element_text(size = 13),
-    panel.grid = element_line(color = "black"),
-    axis.ticks = element_line(color = "black"),
-    plot.margin = margin(18, 12, 1.5, 1.5)
-  )
-
-
-p3 <- ggplot(df, aes(type, value)) + 
-  geom_col(fill = "#56B4E9", width = 0.65, alpha = 0.9) +
-  geom_point(aes(y = expand), shape = NA) +
-  scale_y_continuous(expand = c(0, 0)) +
-  scale_x_discrete(name = NULL) +
-  facet_wrap(~type, scales = "free") +
-  coord_cartesian(clip = "off") +
-  theme_bw() +
-  theme(
-    axis.line = element_blank(),
-    strip.text = element_blank(),
-    plot.margin = margin(18, 12, 1.5, 1.5)
-  )
-
-p3a <- ggplot(df, aes(type, value)) + 
-  geom_col(color = "black", fill = NA, width = .5) +
-  scale_y_continuous(limits = c(0, 5.2), expand = c(0, 0)) +
-  scale_x_discrete(name = NULL) +
-  coord_cartesian(clip = "off") +
-  theme_bw() +
-  background_grid(
-    major = "y", minor = "none",
-    colour.major = "grey30", colour.minor = "black",
-    size.major = 0.5,
-    size.minor = 0.2
-  ) +
-  theme(
-    axis.ticks = element_line(color = "grey30"),
-    plot.margin = margin(18, 12, 1.5, 1.5)
-  )
-
-p4 <- ggplot(df, aes(type, value)) + 
-  geom_col(fill = "#56B4E9", width = 0.65, alpha = 0.9) +
-  coord_cartesian(xlim = c(0.4, 3.6), ylim = c(2, 6.2), expand = FALSE, clip = "on") +
-  scale_y_continuous(breaks = 2:4, name = "", labels = c("", "", "")) +
-  scale_x_discrete(name = NULL) +
-  theme_bw() +
-  theme(
-    panel.grid.major.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    plot.margin = margin(18, 12, 1.5, 1.5)
-  )
-
-plot_grid(
-  p1, NULL, stamp_ugly(p2),
-  NULL, NULL, NULL,
-  stamp_bad(p3), NULL, stamp_wrong(p4),
-  rel_widths = c(1, .1, 1),
-  rel_heights = c(1, .15, 1),
-  labels = c("a", "", "b", "", "", "", "c", "", "d")
-)
-```
-
 
 ---
-class: center, middle, inverse
+class: inverse, center, middle
 
-# The principle of proportional ink
+# Storytelling tips 
 
---
-
-.important[
-
-The sizes of shaded areas in a visualization need to be proportional to the data values they represent 
-
-]
-
-
-.footnote[
-Materials from 'Fundamentals of Data Visualization' by Claus O. Wilke (Part II, Chapter 17)
-]
 
 ???
 
-It is common practice to use the word "ink" to refer to any part of a visualization that deviates from the background color. This includes lines, points, shared areas, and text. In this chapter, however, we are talking primarily about shaded areas
+Most data visualization is done for the purpose of communication. We have an insight about a dataset, and we have a potential audience, and we would like to convey our insight to our audience. To communicate our insight successfully, we will have to present the audience with a clear and exciting story. 
 
-We first consider the most common scenario, visualization of amounts along a linear scale. Figure \@ref(fig:hawaii-income-bars-bad) shows the median income in the five counties that make up the state of Hawaii. 
+Your goal in telling a story should be to use facts and logical reasoning to get your audience interested and excited.
 
-It is a typical figure one might encounter in a newspaper article. A quick glance at the figure suggests that the county of Hawaii is incredibly poor while the county of Honolulu is much richer than the other counties. However, this Figure is quite misleading, because human perception is such that the bar height is the key quantity we perceive when looking at this figure, not the location of the bar endpoint relative to the *y* axis.
 
 ```{r fonts, echo = F}
 dviz_font_family <- "Myriad Pro"
@@ -447,6 +342,7 @@ stamp <- function(p, color, alpha, label, family = dviz_font_family_bold,
 stamp_bad <- function(p, clip = "on") stamp(p, "#d02138", 1, "bad", clip = clip)
 
 ```
+
 
 ```{r}
 library(tidycensus)
@@ -506,6 +402,17 @@ p_income_bad <- p_income_base +
 stamp_bad(p_income_bad)
 ```
 
+
+???
+
+It is common practice to use the word "ink" to refer to any part of a visualization that deviates from the background color. This includes lines, points, shared areas, and text. In this chapter, however, we are talking primarily about shaded areas
+
+We first consider the most common scenario, visualization of amounts along a linear scale. Figure \@ref(fig:hawaii-income-bars-bad) shows the median income in the five counties that make up the state of Hawaii. 
+
+It is a typical figure one might encounter in a newspaper article. A quick glance at the figure suggests that the county of Hawaii is incredibly poor while the county of Honolulu is much richer than the other counties. However, this Figure is quite misleading, because human perception is such that the bar height is the key quantity we perceive when looking at this figure, not the location of the bar endpoint relative to the *y* axis.
+
+
+
 ---
 class: center
 
@@ -563,10 +470,12 @@ ggplot(hawaii_income_diff, aes(x = reorder(county, desc(filter(hawaii_income, ye
 This example could suggest that bars and shaded areas are not useful to represent small changes over time or differences between conditions, since we always have to draw the whole bar or area starting from 0. However, this is not the case. It is perfectly valid to use bars or shaded areas to show **differences between conditions**, as long as we make it explicit which differences we are showing. For example, we can use bars to visualize the change in median income in Hawaiian counties from 2010 to 2015 (Figure \@ref(fig:hawaii-income-change)). For all counties except Kalawao, this change amounts to less than $5000. (Kalawao is an unusual county, with fewer than 100 inhabitants, and it can experience large swings in median income from a small number of people moving into or out of the county.) And for Hawaii County, the change is negative, i.e., the median income in 2015 was lower than it was in 2010. We represent negative values by drawing bars that go in the opposite direction, i.e., that extend from 0 down rather than up.
 
 
----
-class: inverse, center, middle
 
-# Storytelling tips 
+---
+class: center
+
+## Know your audience
+
 
 ```{r}
 carrier_names <- 
@@ -591,18 +500,6 @@ delay <- flights_clean %>%
             arr_delay = mean(arr_delay, na.rm = TRUE))
 
 ```
-
-
-???
-
-Most data visualization is done for the purpose of communication. We have an insight about a dataset, and we have a potential audience, and we would like to convey our insight to our audience. To communicate our insight successfully, we will have to present the audience with a clear and exciting story. 
-
-Your goal in telling a story should be to use facts and logical reasoning to get your audience interested and excited.
-
----
-class: center
-
-## Know your audience
 
 
 ```{r arrival-delay-vs-distance, fig.width = 5*6/4.2, include = T, echo = F}
@@ -704,8 +601,6 @@ class: center
 
 ## Use color as a tool 
 
---
-
 .top-right-corner[
 .tip[
 to represent
@@ -779,7 +674,6 @@ class: center
 
 ## Use color as a tool 
 
---
 
 .top-right-corner[
 .tip[
@@ -907,6 +801,10 @@ class: center
 background-image: url("assets/fontsmatter.png")
 background-size: contain
 
+???
+
+
+LOL but seriously, my fonts are always a mess so if anyone has good resources for finding fonts and also using interent fonts - share! 
 
 
 ---
@@ -914,6 +812,14 @@ class: inverse, center, middle
 
 # Visualization ethics
 
+---
+class: center
+
+# Human Reality 
+
+```{r out.width = "60%"}
+knitr::include_graphics("assets/visual-ranking.jpg")
+```
 
 ---
 class: center
@@ -923,21 +829,6 @@ class: center
 ```{r out.width = "90%"}
 knitr::include_graphics("assets/FLguns.jpeg")
 ```
-
----
-class: center
-
-## Misleading Charts
-
-
-```{r out.width = "80%"}
-knitr::include_graphics("assets/climate.png")
-```
-
-
-???
-
-That is, if you extend the Y-axis by absurd levels. The range goes from an average global temperature of -10 to 110. Presumably, on the high end of the spectrum, many places would have heat waves in the 180s or 190s. We start to feel pain at 111 degrees and human skin is instantly destroyed at 162 degrees. So if the average temperature were to be 110, well, every summer our skin would fall off. Instantaneously.
 
 
 
@@ -972,7 +863,21 @@ knitr::include_graphics("assets/challenger2.jpeg")
 
 
 ---
-class: center
+class: center, middle
+
+# Data is not neutral 
+
+
+--
+
+.tip[
+It is not good enough to commit to not misleading your audience 
+]
+
+https://informationisbeautiful.net/2019/winners-of-the-world-data-visualization-prize/
+
+---
+class: center, middle 
 
 ## Visualizations that mean something
 
@@ -984,9 +889,27 @@ https://guns.periscopic.com/
 
 ???
 
-comunity policing fails in south (nature article)
+
 young men symmetric dancing attractive to women (nature article)
-long term career of phd (nature) (all male committee)
+
+
+
+---
+class: left
+
+# Possible Considerations in Critiquing a Vizualization
+
+- Who is the intended and unintended audience?
+- Who collected, processed, and visualized the data? Was this information easy to find?
+- Why was the data collected, processed, and visualized? Was this information easy to find?
+- How was the data collected, processed, and visualized? Was this information easy to find?
+- What is the focus? What is being left out?
+- What assumptions are being made?
+- What tone is being set by the aesthetics of this visualization?
+- What established worldviews does this visualization support or challenge?
+- What is the effect of using political borders (county, state) to group the data? 
+- Does the visualization empower the audience?
+- Have all steps been taken to increase benefit and reduce harm in producing and publishing this visualization?
 
 ---
 class: inverse, center, middle
@@ -996,50 +919,38 @@ class: inverse, center, middle
 ---
 class: left
 
-# Let's chat resources
+# Favs `r emo::ji("love_letter")`
 
-### Choosing Visualizations
-
+.tip[
 - https://clauswilke.com/dataviz/directory-of-visualizations.html
   - This whole book!
-  
-### Exploratory Visualizations
+    - [Definitely section 3!](https://clauswilke.com/dataviz/image-file-formats.html) 
+- [Orange for exploratory data visualization](https://orangedatamining.com/home/interactive_data_visualization/)
+- [matplotlib](https://www.machinelearningplus.com/plots/top-50-matplotlib-visualizations-the-master-plots-python/) in python  
+- [biorender for graphical abstracts](https://learn.biorender.com/tutorial/designing-graphical-abstracts)
+- [View you local machine as a person with alternative color vision](https://colororacle.org/)
+- [Blog all about deciding on colors](https://lisacharlottemuth.com/articles)
+]
 
-- Jump
-- Orange
-- python
+---
+class: center 
+
+```{r}
+tweet_screenshot(tweet_url = "https://twitter.com/CanopyRobin/status/1537344984332083200",
+                 maxwidth = 350)
+```
 
 
-### Publication Ready Visualizations
+---
+class: left
 
-- origin pro 
-- matplotlib
-  - latex packages
-- Excel 
+# Last things `r emo::ji("save")`
 
-### Graphical Abstracts
+.tip[
+- [Understading `ggplot` resolution](https://www.christophenicault.com/post/understand_size_dimension_ggplot2/)
+- [High resolution figures from R](https://danieljhocking.wordpress.com/2013/03/12/high-resolution-figures-in-r/)
 
-- powerpoint
-- biorender 
-- Better Posters
-
-### Design
-
-- https://colororacle.org/
-- adobe color
-
-### Image Knowledge
-
-- those resources from michael?
-- knowing raster () vs vector (svg)
-  - save raster as way bigger so then when its small in the figure its better quality? 
-
-### Molecules
-
-- ovio 
-- vesta 
-
-### Multidimensionality 
+]
 
 
 
