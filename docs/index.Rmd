@@ -930,6 +930,8 @@ class: left
 - [biorender for graphical abstracts](https://learn.biorender.com/tutorial/designing-graphical-abstracts)
 - [View you local machine as a person with alternative color vision](https://colororacle.org/)
 - [Blog all about deciding on colors](https://lisacharlottemuth.com/articles)
+- [Understading `ggplot` resolution](https://www.christophenicault.com/post/understand_size_dimension_ggplot2/)
+- [High resolution figures from R](https://danieljhocking.wordpress.com/2013/03/12/high-resolution-figures-in-r/)
 ]
 
 ---
@@ -937,20 +939,11 @@ class: center
 
 ```{r tweet-ppt, out.width="50%"}
 tweetrmd::tweet_screenshot(tweet_url = "https://twitter.com/CanopyRobin/status/1537344984332083200",
-                 maxwidth = 350)
+                           maxwidth = 300)
 ```
 
 
----
-class: left
 
-# Last things `r emo::ji("save")`
-
-.tip[
-- [Understading `ggplot` resolution](https://www.christophenicault.com/post/understand_size_dimension_ggplot2/)
-- [High resolution figures from R](https://danieljhocking.wordpress.com/2013/03/12/high-resolution-figures-in-r/)
-
-]
 
 
 
