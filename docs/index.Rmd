@@ -935,8 +935,8 @@ class: left
 ---
 class: center 
 
-```{r}
-tweet_screenshot(tweet_url = "https://twitter.com/CanopyRobin/status/1537344984332083200",
+```{r tweet-ppt, out.width="50%"}
+tweetrmd::tweet_screenshot(tweet_url = "https://twitter.com/CanopyRobin/status/1537344984332083200",
                  maxwidth = 350)
 ```
 
