@@ -1,0 +1,556 @@
+---
+format:
+  revealjs:
+    theme: [default, assets/custom.scss]
+    logo: assets/DataScienceInstitute_ALTERNATE.png
+editor: visual
+knitr: 
+  opts_chunk: 
+    cache: true
+    echo: false
+    message: false
+    warning: false
+---
+
+## 
+
+[![](https://images.squarespace-cdn.com/content/v1/5bfc8dbab40b9d7dd9054f41/1554580826509-WJSK9AK16JSUCM0S1C7Y/800px-Nightingale-mortality.jpg?format=1500w){style="margin-top: -20px;" fig-alt="Radial bar charts displaying wartime mortality" fig-align="center"}](https://www.scientificamerican.com/article/how-florence-nightingale-changed-data-visualization-forever/)
+
+### WTF Re: Data Visualization {style="margin-top: 30px;"}
+
+::: columns
+::: {.column width="50%"}
+Heidi Steiner
+:::
+
+::: {.column width="50%" style="text-align: right;"}
+Fall 2022
+:::
+:::
+
+```{r}
+#| label: library
+#| include: false
+
+library(colorblindr) # remotes::install_github("clauswilke/colorblindr")
+library(cowplot)
+library(datasauRus)
+library(forcats)
+library(glue)
+library(ggrepel)
+library(ggtextures) # devtools::install_github("clauswilke/ggtextures")
+library(gt)
+library(kableExtra)
+library(knitr)
+library(lubridate)
+library(openintro)
+library(nycflights13)
+library(patchwork)
+library(scales)
+library(sf)
+library(tidyverse)
+library(tweetrmd) # devtools::install_github("gadenbuie/tweetrmd")
+
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 16))
+
+theme_update(panel.background = element_rect(fill = "transparent", colour = NA),
+             plot.background = element_rect(fill = "transparent", colour = NA))
+
+
+set.seed(1234)
+
+```
+
+::: notes
+This "Diagram of the causes of mortality in the army in the East" was published in Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army and sent to Queen Victoria in 1858.
+
+This graphic indicates the number of deaths that occured from preventable diseases (in blue), those that were the results of wounds (in red), and those due to other causes (in black).
+
+Nightingale's key persuasion tactic was to convey statistics in exciting ways.
+:::
+
+## Today's Map
+
+::: columns
+::: {.column width="30%"}
+-   Why visualize?
+
+-   Limitations
+
+-   Types of Visualizations
+
+-   Tools + tips + takeaways
+:::
+
+::: {.column width="65%"}
+[![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Snow-cholera-map-1.jpg/1277px-Snow-cholera-map-1.jpg){fig-alt="Black and white map of London" fig-align="right"}](https://www.nationalgeographic.org/activity/mapping-london-epidemic/)
+:::
+:::
+
+## Why visualize? {.alternativeMid}
+
+Discover patterns that may not be obvious from numerical summaries
+
+## For Example...
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| eval: false
+#| echo: true
+
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarise(
+    n = n(),
+    `Average x` = round(mean(x), 1),
+    `Average y` = round(mean(y), 1)
+  )
+
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+
+datasaurus_dozen <- datasaurus_dozen %>%
+  mutate(dataset = case_when(
+    dataset == "dino"       ~ "Dataset 1",
+    dataset == "away"       ~ "Dataset 2",
+    dataset == "h_lines"    ~ "Dataset 3",
+    dataset == "v_lines"    ~ "Dataset 4",
+    dataset == "x_shape"    ~ "Dataset 5",
+    dataset == "star"       ~ "Dataset 6",
+    dataset == "high_lines" ~ "Dataset 7",
+    dataset == "dots"       ~ "Dataset 8",
+    dataset == "circle"     ~ "Dataset 9",
+    dataset == "bullseye"   ~ "Dataset 10",
+    dataset == "slant_up"   ~ "Dataset 11",
+    dataset == "slant_down" ~ "Dataset 12",
+    dataset == "wide_lines" ~ "Dataset 13"
+  ),
+  dataset = fct_relevel(dataset, "Dataset 1", "Dataset 2", "Dataset 3", "Dataset 4", "Dataset 5", "Dataset 6", "Dataset 7", "Dataset 8", "Dataset 9", "Dataset 10", "Dataset 11", "Dataset 12", "Dataset 13")
+  )
+
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarise(
+    n = n(),
+    `Average x` = round(mean(x), 1),
+    `Average y` = round(mean(y), 1)
+  ) %>%
+  kable() %>% 
+  kable_styling(font_size = 25
+                , html_font = "Garamond")
+```
+:::
+:::
+
+::: notes
+We have 13 datasets, each with 142 observations. For each observation we have values on two variables recorded: an X and a Y.
+
+Summary statistics for these two variables for each of the datasets is given on the right.
+
+How, if at all, are these 13 datasets different from each other?
+:::
+
+## More summary statistics...
+
+How, if at all, are these 13 datasets different from each other?
+
+```{r}
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarise(
+    n = n(),
+    `Average x` = round(mean(x), 1),
+    `Average y` = round(mean(y), 1),
+    `St Dev x` = round(sd(x), 1),
+    `St Dev y` = round(sd(y), 1)
+  ) %>%
+  kable() %>% 
+  kable_styling(font_size = 22
+                , html_font = "Garamond")
+```
+
+## Even more stats...
+
+```{r}
+datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarise(
+    n = n(),
+    `Average x` = round(mean(x), 1),
+    `Average y` = round(mean(y), 1),
+    `St Dev x` = round(sd(x), 1),
+    `St Dev y` = round(sd(y), 1),
+    `Correlation` = round(cor(x, y), 1)
+  ) %>%
+  kable() %>% 
+  kable_styling(font_size = 25
+                , html_font = "Garamond")
+```
+
+## Hidden patterns! {.center}
+
+```{r}
+#| label: dinos
+#| fig-asp: 0.8
+#| fig-width: 8
+#| fig-align: center
+#| results: asis
+
+
+datasaurus_dozen %>%
+  ggplot(aes(x = x, y = y, color = dataset)) +
+  geom_point(show.legend = FALSE) +
+  facet_wrap(~dataset) +
+  scale_color_viridis_d()
+
+```
+
+## EDA Tools
+
+#### Software for Exploratory Data Analysis & Beyond
+
+[MS Excel](https://towardsdatascience.com/another-look-at-exploratory-data-analysis-with-excels-ideas-feature-b1be32579cf), LibreOffice - Calc
+
+R (e.g. ggplot2) and Python (e.g. seaborn)
+
+[Tableau](https://www.tableau.com/products/desktop), PowerBI, [Grafana](https://alternativeto.net/software/grafana/about/ "Open Source Tableau Alternative")
+
+[Orange](https://orangedatamining.com/home/interactive_data_visualization/)
+
+## Why visualize? {.alternativeMid}
+
+Convey information in a way that is otherwise difficult/impossible to describe
+
+## 
+
+[![](assets/ft-covid-excess-deaths.png){style="margin-top: -20px;" fig-align="center"}](https://www.ft.com/content/a2901ce8-5eb7-4633-b89c-cbdf5b386938)
+
+::: footer
+Source: \[Financial Times\](https://www.ft.com/content/a2901ce8-5eb7-4633-b89c-cbdf5b386938), 27 Aug 2021.
+:::
+
+## 
+
+[![](assets/covid_dashboard.png){fig-alt="Screenshot of dashboard style data visualization of UArizona COVID testing data" fig-align="center"}](https://covid19.arizona.edu/dashboard)
+
+## Major Data Viz Limitations {.alternative}
+
+::: columns
+::: {.column width="45%" style="font-size: 80%; text-align: left;"}
+### Computational
+
+Do you have the compute power to visualize every data point? Probably not...
+
+Do you need a graphics processing unit?
+
+Do you know how to utilize your lab's GPU?
+:::
+
+::: {.column width="50%" style="font-size: 80%; text-align: left;"}
+### Coordinate
+
+Forget putting all your great insights into one figure!
+:::
+:::
+
+## Cognitive Limitations {.leftCol style="font-size: 90%;"}
+
+::: columns
+::: {.column width="25%"}
+Ranking of visual communication channels
+:::
+
+::: {.column width="70%"}
+![](assets/visual-ranking.jpg){style="margin-top:-200px; margin-right:-100px;" fig-alt="position > length >direction > angles >area > volume >curvature > shading >color saturation" fig-align="right"}
+:::
+:::
+
+## Cognitive Limitations: Distance {.leftCol}
+
+::: columns
+::: {.column width="30%"}
+Principle of Proportional Ink <br> For example:
+:::
+
+::: {.column width="65%"}
+[![](assets/areaPerception.jpeg){style="margin-top:-220px;" fig-alt="a super confusing plot dispalying squares of information" fig-align="right" width="584"}](https://viz.wtf/)
+:::
+:::
+
+## Cognitive Limitations: Color
+
+![](assets/not-ideal-color.png){fig-align="center"}
+
+::: footer
+Lisa Charlotte Muth. What to consider when choosing colors for data visualization. Datawrapper. Published May 29, 2018. Accessed November 7, 2022. <https://blog.datawrapper.de/colors/>
+:::
+
+## Cognitive Limitations: Color
+
+![](assets/not-ideal-hue.png){fig-align="center"}
+
+::: footer
+Lisa Charlotte Muth. What to consider when choosing colors for data visualization. Datawrapper. Published May 29, 2018. Accessed November 7, 2022. <https://blog.datawrapper.de/colors/>
+:::
+
+## Cognivite Limitations: Clutter
+
+```{r}
+carrier_names <- 
+  data.frame(carrier = c("9E", "AA", "B6", "DL", "EV", "MQ", "UA", "US", "WN", "--"),
+             name= c("Endeavor", "American", "JetBlue", "Delta", "ExpressJet", "Envoy", "United",
+                                    "US Airways", "Southwest", "other"))
+
+flights_clean <- filter(flights,
+                !dest %in% c("HNL", "ANC") # remove Honolulu and Anchorage because they're so far
+                ) %>%
+  mutate(carrier = ifelse(carrier %in% c("DL", "AA"), carrier, "--")) %>%
+  left_join(carrier_names) %>%
+  select(name, distance, arr_delay, dest) %>%
+  na.omit()
+
+flights_clean$name <- factor(flights_clean$name, levels = c("American", "Delta", "other"))
+
+delay <- flights_clean %>%
+  group_by(name, dest) %>%
+  summarise(count = n(),
+            distance = mean(distance, na.rm = TRUE),
+            arr_delay = mean(arr_delay, na.rm = TRUE))
+
+```
+
+```{r}
+
+
+p_delay_distance <- ggplot(delay, aes(x = distance, y = arr_delay, color = name, fill = name)) +
+  geom_point(aes(size = count), alpha = .5, pch = 21) +
+  geom_smooth(data = flights_clean, aes(x = distance, y = arr_delay, color = name),
+              se = FALSE, inherit.aes = FALSE, size = 0.75,
+              method = 'gam', formula = y ~ s(x, bs = "cs", k = 3), show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 3050),
+                     expand = c(0, 0),
+                     name = "distance (miles)") +
+  scale_y_continuous(name = "mean arrival delay (min.)") +
+  scale_size(breaks = c(4000, 8000, 12000), name = "# of flights",
+             range = c(2, 8)) +
+  scale_color_OkabeIto(name = "airline", darken = .2, order = c(2, 7, 1)) +
+  scale_fill_OkabeIto(name = "airline", order = c(2, 7, 1)) +
+  guides(color = guide_legend(order = 1),
+         fill = guide_legend(override.aes = list(size = 4, alpha = .7), order = 1),
+         size = guide_legend(override.aes = list(fill = "gray70"), order = 2)) +
+  theme_bw() +
+  theme(plot.margin = margin(3.5, 14, 3.5, 1.5))
+
+p_delay_distance
+```
+
+::: footer
+Wilke CO. *Fundamentals of Data Visualization*. Accessed November 7, 2022. <https://clauswilke.com/dataviz/image-file-formats.html>
+:::
+
+## Cognivite Limitations: Clutter
+
+```{r}
+flights %>% mutate(carrier = ifelse(carrier %in% c("OO", "HA", "YV", "F9", "AS", "FL", "VX"), "--", carrier)) %>%
+    left_join(carrier_names) %>%
+    group_by(name) -> flights_grouped
+
+f1 = flights_grouped %>%
+  summarize(mean_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  na.omit() %>%
+  mutate(highlight = ifelse(name %in% c("Delta", "American"), "yes", "no")) %>%
+  ggplot(aes(x=reorder(name, desc(mean_delay)), y=mean_delay, fill = highlight)) + 
+    scale_fill_manual(values = c("#B0B0B0D0", "#BD3828D0"), guide = "none") +
+    scale_y_continuous(expand = c(0, 0), name = "mean arrival delay (min.)") +
+    scale_x_discrete(name = NULL) +
+    geom_col() + 
+    coord_flip(clip = "off") +
+    theme_bw() +
+    theme(
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank()
+    )
+
+f2  = flights_grouped %>%
+  tally() %>%
+  mutate(highlight = ifelse(name %in% c("Delta", "American"), "yes", "no")) %>%
+  ggplot(aes(x=reorder(name, n), y=n, fill = highlight)) + 
+    scale_fill_manual(values = c("#B0B0B0D0", "#BD3828D0"), guide = "none") +
+    scale_y_continuous(expand = c(0, 0), name = "number of flights") +
+    scale_x_discrete(name = NULL) +
+    geom_col() + 
+    coord_flip(clip = "off") +
+    theme_bw() +
+    theme(
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank()
+    )
+
+plot_grid(f1, f2, nrow = 1)
+```
+
+::: footer
+Wilke CO. *Fundamentals of Data Visualization*. Accessed November 7, 2022. <https://clauswilke.com/dataviz/image-file-formats.html>
+:::
+
+## Cognitive Limitations {.alternativeMid}
+
+Often the same visualization won't work for every audience...
+
+## #SciComm
+
+::: columns
+::: {.column width="30%"}
+-   Graphical Abstracts
+
+-   Infographics
+:::
+
+::: {.column width="65%"}
+[![](assets/comic_abstract_example.png){style="margin-top:-120px;" width="550"}](https://www.yumpu.com/en/document/read/54784629/cartoon-abstracts)
+:::
+:::
+
+## #SciComm
+
+::: columns
+::: {.column width="30%"}
+-   Graphical Abstracts
+
+-   Infographics
+:::
+
+::: {.column width="65%"}
+::: {style="margin-top:-140px;"}
+```{r}
+#| label: tweet-ppt
+#| out-height: 500%
+
+
+tweetrmd::tweet_screenshot(tweet_url = "https://twitter.com/CanopyRobin/status/1537344984332083200")
+```
+:::
+:::
+:::
+
+## #SciComm
+
+[![](https://indianpueblo.org/wp-content/uploads/Jonna-Paden-reclaiming-native.png){fig-alt="Infographic of how invisibility, toxic stereotypes, and false narratives are perpetuated and institutionalized through K-12 education, popular culture, and the media"}](https://indianpueblo.org/native-american-heritage-month/)
+
+## #SciComm Tools
+
+![](assets/sciCommTools.png){fig-alt="Graphic of illustrator tools ranging from free and simple (biorender) to expensive and comlex (illustrator)" fig-align="center" width="545"}
+
+## Extra Data Viz Tools
+
+[Rate your data visualization](https://stephanieevergreen.com/rate-your-visualization/)
+
+InkSkape
+
+JavaScript
+
+Is there a [field specific tool](https://www.geneious.com/) you might utilize?
+
+## Data are not neutral. {.alternativeMid}
+
+It's easy to make a "bad" plot.
+
+## Bad Plots
+
+-   Taste `r fontawesome::fa("ice-cream")`
+
+-   Data `r fontawesome::fa("ruler-vertical")`
+
+-   Perception `r fontawesome::fa("brain")`
+
+## Bad Plots: Data
+
+[![](https://static01.nyt.com/images/2016/11/29/world/americas/democracy-interpreter-1480452951332/democracy-interpreter-1480452951332-superJumbo.png){fig-alt="Line plots of 6 countries showing decreasing trends of feelings of democracy being esssential with each decreasing decade" fig-align="center"}](https://www.nytimes.com/2016/11/29/world/americas/western-liberal-democracy.html)
+
+<div>
+
+this graph sucks for a few reasons: cherry picking data,
+
+cross sectional design aka lines aren't time but are differences
+
+title misleads audience into assuming the survey question. we assume yes/no "is democracy essential?" actual question 1-10 how essential is democracy and this graph shows % of surveyed who answered only 10.
+
+</div>
+
+## Bad Plots: Data 
+
+[![](http://www.washingtonpost.com/blogs/monkey-cage/files/2016/12/fig1wvs.png){fig-alt="Updated line plots showing similar, less steep declines" fig-align="center"}](https://www.washingtonpost.com/news/monkey-cage/wp/2016/12/05/that-viral-graph-about-millennials-declining-support-for-democracy-its-very-misleading/)
+
+## Data Viz Ethics {.alternativeMid}
+
+It is not good enough to commit to not misleading your audience.
+
+## Data Viz Ethics
+
+![](https://images.nsgrantham.com/file/nsgrantham/2020-03-25-traumatic-brain-injury_1280.jpg){fig-align="right" width="1300"}
+
+::: notes
+It is OK for visualizations to invoke feelings!
+:::
+
+## Extra Thoughts: Exporting
+
+::: columns
+::: {.column width="30%" style="font-size:45%;"}
+| **Acronym** | **Name**                         | **Type** | **Application**                                |
+|-----------------|-----------------|-----------------|---------------------|
+| pdf         | Portable Document Format         | vector   | general purpose                                |
+| eps         | Encapsulated PostScript          | vector   | general purpose, outdated; use pdf             |
+| svg         | Scalable Vector Graphics         | vector   | online use                                     |
+| png         | Portable Network Graphics        | bitmap   | optimized for line drawings                    |
+| jpeg        | Joint Photographic Experts Group | bitmap   | optimized for photographic images              |
+| tiff        | Tagged Image File Format         | bitmap   | print production, accurate color reproduction  |
+| raw         | Raw Image File                   | bitmap   | digital photography, needs post-processing     |
+| gif         | Graphics Interchange Format      | bitmap   | outdated for static figures, Ok for animations |
+:::
+
+::: {.column width="50%" style="font-size:75%"}
+-   Vector graphics redrawn "on the fly" vs bitmap always bitmap
+
+-   Bitmap Compression (to keep file sizes small)
+
+    -   Lossless = pixel-for-pixel identical
+
+    -   Lossy = accepts some image degradation in return for smaller file sizes
+
+        -   great for photos, can't make lines
+
+-   Rule of Thumb: Store visualization in maximum resolution format, copy at lower resolutions when necessary
+:::
+:::
+
+::: notes
+resolution properly refers to the [pixel density](https://en.wikipedia.org/wiki/Pixel_density "Pixel density"), the number of pixels per unit distance or area, not the *total* number of pixels. In digital measurement, the display resolution would be given in pixels per inch (PPI).
+:::
+
+## Extra Thoughts: Text
+
+::: columns
+::: {.column width="40%"}
+-   Is your [font readable](https://nightingaledvs.com/choosing-fonts-for-your-data-visualization/ "Tips for font selection") at the smallest printed size?
+-   Do you need to left align?
+:::
+
+::: {.column width="55%"}
+![](assets/fontsmatter.png){fig-align="center"}
+:::
+:::
+
+## Extra Thoughts: Accessibility
+
+-   Check that your plots are [color blind friendly](https://colororacle.org/ "free color blindness simulator")
+
+-   Add [alt-text](https://supercooldesign.co.uk/blog/how-to-write-good-alt-text "How to write alt-text") to #scicomm
+
+## Tomorrow...
+
+![](assets/leoDicaprio.png){fig-align="center" width="606"}

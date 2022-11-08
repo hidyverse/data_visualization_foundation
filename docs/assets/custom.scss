@@ -1,0 +1,58 @@
+/*-- scss:defaults --*/
+/* Nightingale Rose Graph Pallette */
+
+$theme-blue: #748c94;
+$theme-pink: #d1afae;
+$theme-darkpink: #7f7072;
+$theme-gray: #c6ccd1;
+$theme-white: #fff9fd;
+$theme-black: #393436;
+
+
+$body-bg: $theme-white;
+$body-color: $theme-black;
+$link-color: $theme-darkpink;
+$code-block-bg: "transparent"; 
+
+/*-- scss:rules --*/
+
+
+h1, h2, h3 {
+  font-family: "Garamond", serif !important;
+}
+
+p {
+  font-family: "Garamond", serif !important;
+}
+
+li {
+  font-family: "Garamond", serif !important;
+}
+
+.alternative {
+  vertical-align: middle !important;
+  background: $theme-darkpink !important; 
+  color: $theme-white !important;
+  text-align: center;
+  font-size: larger !important;
+  margin: auto !important;
+}
+
+.alternativeMid {
+  padding-top: 150px !important;
+  background: $theme-darkpink !important; 
+  color: $theme-white !important;
+  text-align: center;
+  font-size: larger !important;
+  margin: auto !important;
+}
+
+.footer {
+  color: $theme-blue !important;
+  justify-content: bottom !important;
+  text-align: center !important;
+}
+
+.leftCol h2 {
+  width: 35% !important;
+}
