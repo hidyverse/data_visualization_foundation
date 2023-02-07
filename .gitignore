@@ -4,3 +4,4 @@
 .Ruserdata
 docs/index_cache/
 *.mp4
+**/.DS_Store
