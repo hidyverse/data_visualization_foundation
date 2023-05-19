@@ -24,7 +24,7 @@ Heidi Steiner
 :::
 
 ::: {.column width="50%" style="text-align: right;"}
-Fall 2022
+Spring 2023
 :::
 :::
 
@@ -94,7 +94,7 @@ Discover patterns that may not be obvious from numerical summaries
 ## For Example...
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="60%"}
 ```{r}
 #| eval: false
 #| echo: true
@@ -110,7 +110,7 @@ datasaurus_dozen %>%
 ```
 :::
 
-::: {.column width="50%"}
+::: {.column width="40%"}
 ```{r}
 
 datasaurus_dozen <- datasaurus_dozen %>%
@@ -471,17 +471,15 @@ It's easy to make a "bad" plot.
 
 [![](https://static01.nyt.com/images/2016/11/29/world/americas/democracy-interpreter-1480452951332/democracy-interpreter-1480452951332-superJumbo.png){fig-alt="Line plots of 6 countries showing decreasing trends of feelings of democracy being esssential with each decreasing decade" fig-align="center"}](https://www.nytimes.com/2016/11/29/world/americas/western-liberal-democracy.html)
 
-<div>
-
+::: notes
 this graph sucks for a few reasons: cherry picking data,
 
 cross sectional design aka lines aren't time but are differences
 
 title misleads audience into assuming the survey question. we assume yes/no "is democracy essential?" actual question 1-10 how essential is democracy and this graph shows % of surveyed who answered only 10.
+:::
 
-</div>
-
-## Bad Plots: Data 
+## Bad Plots: Data
 
 [![](http://www.washingtonpost.com/blogs/monkey-cage/files/2016/12/fig1wvs.png){fig-alt="Updated line plots showing similar, less steep declines" fig-align="center"}](https://www.washingtonpost.com/news/monkey-cage/wp/2016/12/05/that-viral-graph-about-millennials-declining-support-for-democracy-its-very-misleading/)
 
@@ -500,9 +498,9 @@ It is OK for visualizations to invoke feelings!
 ## Extra Thoughts: Exporting
 
 ::: columns
-::: {.column width="30%" style="font-size:45%;"}
+::: {.column width="30%" style="font-size:40%;"}
 | **Acronym** | **Name**                         | **Type** | **Application**                                |
-|-----------------|-----------------|-----------------|---------------------|
+|-----------------|-----------------|-----------------|--------------------|
 | pdf         | Portable Document Format         | vector   | general purpose                                |
 | eps         | Encapsulated PostScript          | vector   | general purpose, outdated; use pdf             |
 | svg         | Scalable Vector Graphics         | vector   | online use                                     |
@@ -551,6 +549,4 @@ resolution properly refers to the [pixel density](https://en.wikipedia.org/wiki/
 
 -   Add [alt-text](https://supercooldesign.co.uk/blog/how-to-write-good-alt-text "How to write alt-text") to #scicomm
 
-## Tomorrow...
-
-![](assets/leoDicaprio.png){fig-align="center" width="606"}
+# Questions? 
